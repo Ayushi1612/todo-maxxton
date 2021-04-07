@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import AddCircleIcon from '@material-ui/icons/AddCircle'
 import { useGlobalContext } from './context';
-import Todos from './Todos'
+import Todo from './Todo'
 
 function Home() {
   const { openModal,deleteHandler } = useGlobalContext();
@@ -10,10 +10,11 @@ function Home() {
 // }, [deleteHandler])
     return (
         <div>
+          <h2>ToDo App</h2>
             <button onClick={openModal} className="btn">
                 <AddCircleIcon/>
             </button>
-      <Todos/>
+      <Todo/>
 
         </div>
     )

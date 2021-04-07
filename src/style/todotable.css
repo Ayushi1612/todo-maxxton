@@ -1,0 +1,8 @@
+.completed{
+    background-color: red;
+
+}
+
+.completedText{
+    text-decoration: line-through;
+}

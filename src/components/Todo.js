@@ -7,6 +7,7 @@ import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
 import ArrowDropUpIcon from "@material-ui/icons/ArrowDropUp";
 import ImportExportIcon from "@material-ui/icons/ImportExport";
 import { useGlobalContext } from "./context";
+import Todotable from "./Todotable";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -21,25 +22,36 @@ const useStyles = makeStyles((theme) => ({
 }));
 function Todo() {
   const classes = useStyles();
-  var values = [],
-  keys = Object.keys(localStorage),
-  i = keys.length;
+  const {
+    inputText,
+    todos,
+    setInputText,
+    setTodos,
+    idTodo, setIdTodo,deleteHandler
+  } = useGlobalContext();
 
-while (i--) {
-  values.push(localStorage.getItem(keys[i]));
-}
-let arr=[]
-console.log(values.length)
-for(let i=0; i<values.length;i++ ){
-  arr[i] = JSON.parse(values[i])
-}
-  console.log(arr);
+//   var values = [],
+//   keys = Object.keys(localStorage),
+//   i = keys.length;
+
+// while (i--) {
+//   values.push(localStorage.getItem(keys[i]));
+// }
+// let arr=[]
+// console.log(values.length)
+// for(let i=0; i<values.length;i++ ){
+//   arr[i] = JSON.parse(values[i])
+// }
+//   console.log(arr);
+
+
+
   // const idTodo = useRef(null);
   // const [arrTodo, setArrTodo] = useState([]);
   // const [idTodo, setIdTodo] = useState();
   // useEffect(() => {
   //   setArrTodo(arr)
-  const { idTodo, setIdTodo,deleteHandler } = useGlobalContext();
+  // const { idTodo, setIdTodo,deleteHandler } = useGlobalContext();
 
   // }, [idTodo,arrTodo])
   // console.log(arr[0].description, "todo");
@@ -97,49 +109,19 @@ for(let i=0; i<values.length;i++ ){
         </tr>
 
         {
-          arr.map((todo) => {
-            return (
-              <tr>
-                <td>{todo.summary}</td>
-                <td>{todo.priority}</td>
-                <td>{todo.createdDate}</td>
-                <td>{todo.dueDate}</td>
-                <td>
-                  <Button>
-                    <EditIcon />
-                  </Button>
-                  <Button
-                    onClick={(e) => {
-                      console.log("clicked");
-                      setIdTodo(todo.id);
-                      console.log(idTodo);
-                      localStorage.removeItem(idTodo);
-                      deleteHandler()
-
-                      // var values = [],
-                      //   keys = Object.keys(localStorage),
-                      //   i = keys.length;
-
-                      // while (i--) {
-                      //   values.push(localStorage.getItem(keys[i]));
-                      // }
-                      // let arr = [];
-                      // console.log(values.length);
-                      // for (let i = 0; i < values.length; i++) {
-                      //   arr[i] = JSON.parse(values[i]);
-                      // }
-                      // console.log(arr);
-                    }}
-                  >
-                    <DeleteIcon />
-                  </Button>
-
-                  <Button>done/re-open</Button>
-                </td>
-              </tr>
-            );
-          })
+          // todos.map((todo) => {
+          //   return (
+          //     <Todotable />
+          //   })
           // arr[0].description
+          todos.map((todo)=>{
+            return(
+              <tr>
+
+                <Todotable key={todo.id} todo={todo}/>
+              </tr>
+            )
+          })
         }
       </table>
     </div>

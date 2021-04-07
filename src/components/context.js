@@ -11,6 +11,7 @@ const AppProvider = ({ children }) => {
     description: "",
     dueDate: "",
     priority: Number,
+    completed: false
     // createdDate: ""
   });
 
@@ -28,19 +29,21 @@ const AppProvider = ({ children }) => {
   };
 
   const deleteHandler = () => {
-    var values = [],
-  keys = Object.keys(localStorage),
-  i = keys.length;
+    
+    
+//     var values = [],
+//   keys = Object.keys(localStorage),
+//   i = keys.length;
 
-while (i--) {
-  values.push(localStorage.getItem(keys[i]));
-}
-let arr=[]
-console.log(values.length)
-for(let i=0; i<values.length;i++ ){
-  arr[i] = JSON.parse(values[i])
-}
-  console.log(arr);
+// while (i--) {
+//   values.push(localStorage.getItem(keys[i]));
+// }
+// let arr=[]
+// console.log(values.length)
+// for(let i=0; i<values.length;i++ ){
+//   arr[i] = JSON.parse(values[i])
+// }
+//   console.log(arr);
   };
 
   const [arrTodo, setArrTodo] = useState([]);

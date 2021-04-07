@@ -48,8 +48,8 @@ function Modal() {
       createdDate: new Date().toLocaleDateString().replaceAll("/", "-"),
     };
     setTodos([...todos, newRecord]);
-    localStorage.setItem(id,JSON.stringify(newRecord))
-    console.log(id,todos);
+    // localStorage.setItem(id,JSON.stringify(newRecord))
+    // console.log(id,todos);
     closeModal()
     // setInputText({ summary: "", description: "", dueDate: "", priority: "" });
   };
