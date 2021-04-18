@@ -1,87 +1,67 @@
-import {
-  Button,
-  FormControl,
-  InputLabel,
-  Select,
-  TextField,
-} from "@material-ui/core";
+import React from 'react'
 import { makeStyles } from "@material-ui/core/styles";
-import React, { useState } from "react";
+import { useState } from "react";
 import { useGlobalContext } from "./context";
-import "../style/modal.css";
+import {
+    Button,
+    FormControl,
+    InputLabel,
+    Select,
+    TextField,
+  } from "@material-ui/core";
 
-
-const useStyles = makeStyles((theme) => ({
-  container: {
-    display: "flex",
-    flexWrap: "wrap",
-  },
-  textField: {
-    marginLeft: theme.spacing(1),
-    marginRight: theme.spacing(1),
-    width: 200,
-  },
-}));
-function Modal({id}) {
-  // const { isModalOpen, closeModal } = useGlobalContext();
-  const classes = useStyles();
-  const { isModalOpen, closeModal, inputText,todos,setInputText,setTodos,error } = useGlobalContext();
-
-  // if(id){
-  //   todos.map((todo)=>{
-  //     if(todo.id === id){
-  //       console.log("found you!")
-  //     }
-  //   })
-  // }
-  const inputTextHandler = (e) => {
-    const name = e.target.name;
-    const value = e.target.value;
-    // inputText.
-    setInputText({ ...inputText, [name]: value });
-  //   console.log(inputText);
-  };
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    let id = new Date().toString().replaceAll(" ", "")
-    const newRecord = {
-      ...inputText,
-      id,
-      createdDate: new Date().toLocaleDateString().replaceAll("/", "-"),
+  const useStyles = makeStyles((theme) => ({
+    container: {
+      display: "flex",
+      flexWrap: "wrap",
+    },
+    textField: {
+      marginLeft: theme.spacing(1),
+      marginRight: theme.spacing(1),
+      width: 200,
+    },
+  }));
+function Form() {
+    const classes = useStyles();
+    const { isModalOpen, closeModal, inputText,todos,setInputText,setTodos,error,newTodos } = useGlobalContext();
+  
+    const inputTextHandler = (e) => {
+      const name = e.target.name;
+      const value = e.target.value;
+      // inputText.
+      setInputText({ ...inputText, [name]: value });
+    //   console.log(inputText);
     };
-    setTodos([...todos, newRecord]);
-    setInputText({
-      summary: "",
-    description: "",
-    dueDate: "",
-    priority: Number,
-    completed: false,
-    })
-    closeModal()
+    const handleSubmit = (e) => {
+      e.preventDefault();
+      let id = new Date().toString().replaceAll(" ", "")
+      const newRecord = {
+        ...inputText,
+        id,
+        createdDate: new Date().toLocaleDateString().replaceAll("/", "-"),
+      };
+      setTodos([...todos, newRecord]);
+      closeModal()
+      console.log(todos)
+    };
 
-  };
-  console.log(todos)
-  return (
-    <div
-      className={`${
-        isModalOpen ? "modal-overlay show-modal" : "modal-overlay"
-      }`}
-    >
-      <div className="modal-container">
-        <h3 className={"heading"}>Add Task</h3>
+    let flag = true
+    
+    return (
+        <div>
 
-        <form>
-          <div className={"taskForm"}>
+        <div className={"taskForm"}>
   
         <div>
           <label>Summary</label>
           <br />
+        
           <TextField
            variant="outlined"
            autoComplete="off"
            name="summary"
            placeholder="Summary"
-           value={inputText.summary}
+          value={inputText.summary}
            onChange={inputTextHandler}
           />
         </div>
@@ -130,19 +110,20 @@ function Modal({id}) {
           onChange={inputTextHandler}
         />
 
-        <FormControl variant="outlined" className={classes.formControl}>
+        {/* <FormControl variant="outlined" className={classes.formControl}>
           <Select
             native
             name="priority"
             value={inputText.priority}
             onChange={inputTextHandler}
-          >
+          > */}
+            <option value={""}></option>
             <option value={"None"}>None</option>
             <option value={"Low"}>Low</option>
             <option value={"Medium"}>Medium</option>
             <option value={"High"}>High</option>
-          </Select>
-        </FormControl>
+          {/* </Select>
+        </FormControl> */}
         </div>
 
         <Button className="close-modal-btn" onClick={closeModal}>
@@ -155,10 +136,9 @@ function Modal({id}) {
           >
             Save
           </Button> 
-        </form>
-      </div>
     </div>
-  );
+
+    )
 }
 
-export default Modal;
+export default Form

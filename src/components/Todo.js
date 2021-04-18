@@ -1,99 +1,83 @@
+import { Button } from "@material-ui/core";
 import React from "react";
+import EditIcon from "@material-ui/icons/Edit";
+import DeleteIcon from "@material-ui/icons/Delete";
 import { useGlobalContext } from "./context";
-import Todotable from "./Todotable";
-// import Category from "./Category";
-import Pending from './Pending'
-// const useStyles = makeStyles((theme) => ({
-//   container: {
-//     display: "flex",
-//     flexWrap: "wrap",
-//   },
-//   textField: {
-//     marginLeft: theme.spacing(1),
-//     marginRight: theme.spacing(1),
-//     width: 200,
-//   },
-// }));
-function Todo() {
-  // const classes = useStyles();
-  const {
-    // inputText,
-    // todos,
-    // setInputText,
-    // setTodos,
-    // idTodo, setIdTodo,deleteHandler,tododetails, setTododetails
-    isPending,
-    isCompleted,
-  } = useGlobalContext();
+import EditTodoForm from "./EditTodoForm";
 
+function Todo({ todo,editNow }) {
+  const { todos, setTodos, openEditTodoModal } = useGlobalContext();
 
-  //  let isCompleted = []
-  // let isPending =[]
-  // const filterItems = (category) =>{
-  //   todos.map((element)=>{
-  //     if(element.completed){
-  //       isCompleted.push(element)
-  //     }
-  //     else{
-  //       isPending.push(element)
-  //     }
-  //   })
-  //     console.log(isCompleted)
-  //     console.log(isPending)
-  //   }
+  let id;
+  console.log(id);
 
-// const sortSummary = () =>{
-// console.log(tododetails)
-// }
-//   var values = [],
-//   keys = Object.keys(localStorage),
-//   i = keys.length;
-
-// while (i--) {
-//   values.push(localStorage.getItem(keys[i]));
-// }
-// let arr=[]
-// console.log(values.length)
-// for(let i=0; i<values.length;i++ ){
-//   arr[i] = JSON.parse(values[i])
-// }
-//   console.log(arr);
-
-
-
-  // const idTodo = useRef(null);
-  // const [arrTodo, setArrTodo] = useState([]);
-  // const [idTodo, setIdTodo] = useState();
-  // useEffect(() => {
-  //   setArrTodo(arr)
-  // const { idTodo, setIdTodo,deleteHandler } = useGlobalContext();
-
-  // }, [idTodo,arrTodo])
-  // console.log(arr[0].description, "todo");
-  // console.log(arr[0], "todo");
-  // setArrTodo(arr)
-
-  // const deleteHandler = (e) => {
-  //   console.log(idtodo);
-
-  // setArrTodo()
+  // let editNow = (todo) => {
+  //   // edittodo= todo
+  //   // return (
+  //   //   <>
+  //   //     <EditTodoForm todo={todo} />;
+  //   //   </>
+  //   // );
   // };
-  return (
-    <div>
-            {/* <Button onClick={filterItems}>category</Button> */}
-     
- 
-<Todotable/>
-{/* <div>
-  {isPending ? <Pending/> : null}
-</div> */}
 
-    </div>
+  return (
+    <>
+      <td className={`${todo.completed ? "completedText" : ""}`}>
+        {todo.summary}
+      </td>
+
+      <td className={`${todo.completed ? "completedText" : ""}`}>
+        {todo.priority}
+      </td>
+      <td className={`${todo.completed ? "completedText" : ""}`}>
+        {todo.createdDate}
+      </td>
+      <td className={`${todo.completed ? "completedText" : ""}`}>
+        {todo.dueDate}
+      </td>
+      <td>
+        <Button>
+          <EditIcon
+            onClick={
+              
+              (e) => {
+                todos.filter((el) => (id = todo.id));
+                console.log(todo);
+                openEditTodoModal()
+                editNow(todo)
+            }
+          }
+          />
+        </Button>
+        <Button
+          onClick={(e) => {
+            setTodos(todos.filter((el) => el.id !== todo.id));
+          }}
+          
+        >
+          <DeleteIcon />
+        </Button>
+
+        <Button
+          className={`${todo.completed ? "completed" : ""}`}
+          onClick={(e) => {
+            setTodos(
+              todos.map((el) => {
+                if (el.id === todo.id) {
+                  return {
+                    ...el,
+                    completed: !el.completed,
+                  };
+                }
+                console.log(el);
+                return el;
+              })
+            );
+          }}
+        >{`${todo.completed ? "Re-Open" : "Done"}`}</Button>
+      </td>
+    </>
   );
 }
 
 export default Todo;
-
-
-
-  

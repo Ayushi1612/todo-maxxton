@@ -5,8 +5,9 @@ const AppContext = React.createContext();
 const AppProvider = ({ children }) => {
   let isCompleted = [];
   let isPending = [];
-  let Active = 'all'
+  let Active = "all";
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isEditTodoModalOpen, setIsEditTodoModalOpen] = useState(false);
   const [pending, setPending] = useState(isPending);
   const [completed, setCompleted] = useState(isCompleted);
   const [todos, setTodos] = useState([]);
@@ -32,64 +33,186 @@ const AppProvider = ({ children }) => {
   const closeModal = () => {
     setIsModalOpen(false);
   };
-
-  const deleteHandler = () => {
-    //     var values = [],
-    //   keys = Object.keys(localStorage),
-    //   i = keys.length;
-    // while (i--) {
-    //   values.push(localStorage.getItem(keys[i]));
-    // }
-    // let arr=[]
-    // console.log(values.length)
-    // for(let i=0; i<values.length;i++ ){
-    //   arr[i] = JSON.parse(values[i])
-    // }
-    //   console.log(arr);
+  const  openEditTodoModal = () => {
+    setIsEditTodoModalOpen(true);
   };
- 
+  const closeEditTodoModal = () => {
+    setIsEditTodoModalOpen(false);
+  };
   const completedFilterItems = (category) => {
     todos.map((element) => {
       if (element.completed) {
         isCompleted.push(element);
-      } 
-      // else {
-      //   isPending.push(element);
-      // }
+        Active = "completedActive";
+      }
     });
-    Active = 'completedActive'
     console.log(completed);
-    // console.log(isPending);
   };
   const pendingFilterItems = (category) => {
     todos.map((element) => {
       if (element.completed == false) {
-        // isCompleted.push(element);
         isPending.push(element);
-        isPending = [...new Set(isPending)]
-      } 
+        isPending = [...new Set(isPending)];
+        Active = "pendingActive";
+      }
     });
-    // console.log(isCompleted);
-    Active = 'pendingActive'
     console.log(pending);
   };
-  
 
   const allFilterItems = (category) => {
-    todos.map((element) => {
-      if (element.completed == false) {
-        // isCompleted.push(element);
-        isPending.push(element);
-        isPending = [...new Set(isPending)]
-      } 
-    });
-    Active = 'all'
-    // console.log(isCompleted);
-    // console.log(pending);
+    Active = "all";
   };
 
+  //==============================================================================================================
+    // edit todos logic
+  //==============================================================================================================
+  
+ 
 
-  const [idTodo, setIdTodo] = useState();
+  //==============================================================================================================
+  // variables for priority
+  //==============================================================================================================
+
+  let none = [];
+  let low = [];
+  let medium = [];
+  let high = [];
+  let prioritySortTodos = [...todos];
+  let descprioritySortTodos = [...todos];
+  let ascprioritySortTodos = [...todos];
+
+  //==============================================================================================================
+  // variables for summary
+  //==============================================================================================================
+
+  let ascSummarySortTodos = [...todos];
+  let descSummarySortTodos = [...todos];
+
+  //==============================================================================================================
+  // variables for created date
+  //==============================================================================================================
+
+  let asccreatedSortTodos = [...todos];
+  let desccreatedSortTodos = [...todos];
+
+  //==============================================================================================================
+  // variables for due date
+  //==============================================================================================================
+
+  let ascdueSortTodos = [...todos];
+  let descdueSortTodos = [...todos];
+
+  //==============================================================================================================
+  //generic funtion for sorting created date, due date and summary
+  //==============================================================================================================
+
+  function todoSort(todosort) {
+    return function (a, b) {
+      if (a[todosort] > b[todosort]) {
+        return 1;
+      } else if (a[todosort] < b[todosort]) {
+        return -1;
+      }
+      return 0;
+    };
+  }
+
+  //==============================================================================================================
+  // sort summary
+  //==============================================================================================================
+
+  function ascSummarySort() {
+    asccreatedSortTodos.sort(todoSort("summary"));
+    setTodos(asccreatedSortTodos);
+    console.log(asccreatedSortTodos, "acsSummarysorted");
+  }
+
+  function descSummarySort() {
+    descSummarySortTodos.sort(todoSort("summary"));
+    descSummarySortTodos.reverse();
+    setTodos(descSummarySortTodos);
+    console.log(descSummarySortTodos, "descSummarysorted");
+  }
+
+  //==============================================================================================================
+  //sort priority
+  //==============================================================================================================
+
+  //check asc and desc order clicks function
+
+  prioritySortTodos.map((todo) => {
+    //take todo in significant array
+    if (todo.priority === "None") {
+      none.push(todo);
+    }
+    if (todo.priority === "Low") {
+      low.push(todo);
+    }
+    if (todo.priority === "Medium") {
+      medium.push(todo);
+    }
+    if (todo.priority === "High") {
+      high.push(todo);
+    }
+  });
+
+  const descprioritySort = () => {
+    descprioritySortTodos = [...high, ...medium, ...low, ...none];
+    console.log(descprioritySortTodos, "desc");
+    setTodos(descprioritySortTodos);
+  };
+
+  const ascprioritySort = () => {
+    ascprioritySortTodos = [...none, ...low, ...medium, ...high];
+    console.log(ascprioritySortTodos, "asc");
+    setTodos(ascprioritySortTodos);
+  };
+
+  //==============================================================================================================
+  // sort on createdDate
+  //==============================================================================================================
+
+  function asccreatedSort() {
+    ascSummarySortTodos.sort(todoSort("createdDate"));
+    setTodos(ascSummarySortTodos);
+    console.log(ascSummarySortTodos, "acscreatedsorted");
+  }
+
+  function desccreatedSort() {
+    desccreatedSortTodos.sort(todoSort("createdDate"));
+    desccreatedSortTodos.reverse();
+    setTodos(desccreatedSortTodos);
+    console.log(desccreatedSortTodos, "desccreatedsorted");
+  }
+
+  //==============================================================================================================
+  // sort on due Date
+  //==============================================================================================================
+
+  function ascdueSort() {
+    ascdueSortTodos.sort(todoSort("dueDate"));
+    setTodos(ascdueSortTodos);
+    console.log(ascdueSortTodos, "acsduesorted");
+  }
+
+  function descdueSort() {
+    descdueSortTodos.sort(todoSort("dueDate"));
+    descdueSortTodos.reverse();
+    setTodos(descdueSortTodos);
+    console.log(descdueSortTodos, "descduesorted");
+  }
+
+  //==============================================================================================================
+
+  const groupByPriority = () => {
+    asccreatedSort()
+    let groupByPriorityArray = [...ascprioritySortTodos]
+    setTodos(groupByPriorityArray)
+    console.log(groupByPriorityArray, "ascprioritySortTodos")
+    console.log(todos, "todos")
+  }
+
+
 
   return (
     <AppContext.Provider
@@ -101,10 +224,7 @@ const AppProvider = ({ children }) => {
         inputText,
         setTodos,
         setInputText,
-        deleteHandler,
         error,
-        idTodo,
-        setIdTodo,
         arrTodo,
         setArrTodo,
         tododetails,
@@ -113,7 +233,26 @@ const AppProvider = ({ children }) => {
         isCompleted,
         completedFilterItems,
         allFilterItems,
-        setTododetails,pending, setPending,completed, setCompleted, Active
+        setTododetails,
+        pending,
+        setPending,
+        completed,
+        setCompleted,
+        Active,
+        ascSummarySort,
+        descSummarySort,
+        ascprioritySort,
+        descprioritySort,
+        asccreatedSort,
+        desccreatedSort,
+        ascdueSort,
+        descdueSort,
+        // prioritySortTodos,
+        groupByPriority,
+        // edittodo,
+        openEditTodoModal,
+        closeEditTodoModal,
+        isEditTodoModalOpen
       }}
     >
       {children}
