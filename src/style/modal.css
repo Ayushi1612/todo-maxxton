@@ -1,10 +1,43 @@
+.modal-container{
+    position: relative;
+}
+
+
+
 .heading{
 font-family:"Segoe UI";
-font-weight:20;
-
+font-weight: bolder;
+position: absolute;
+top: 80px;
+ padding-left: 80px;
 }
 
 .taskForm{
 border-top:"2px solid black";
 
+}
+
+/* h3{
+} */
+
+label{
+    margin-right: 10px;
+    top:5px;
+    color: rgb(131, 131, 131);
+}
+
+.warning{
+    color: rgb(126, 126, 61);
+    font-size: small;
+}
+
+.buttonContainer{
+    /* padding-top: 50px; */
+    position: absolute;
+    bottom: 90px;
+    padding-left: 40px;
+}
+
+.buttonContainer > Button{
+    padding:20px 40px;
 }

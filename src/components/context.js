@@ -11,6 +11,7 @@ const AppProvider = ({ children }) => {
   const [pending, setPending] = useState(isPending);
   const [completed, setCompleted] = useState(isCompleted);
   const [todos, setTodos] = useState([]);
+  const [editTodo, seteditTodo] = useState();
   const [arrTodo, setArrTodo] = useState(todos);
   const [inputText, setInputText] = useState({
     summary: "",
@@ -67,7 +68,7 @@ const AppProvider = ({ children }) => {
     // edit todos logic
   //==============================================================================================================
   
- 
+ console.log(editTodo, "edititoto")
 
   //==============================================================================================================
   // variables for priority
@@ -211,7 +212,9 @@ const AppProvider = ({ children }) => {
     console.log(groupByPriorityArray, "ascprioritySortTodos")
     console.log(todos, "todos")
   }
+//seacrch
 
+const [searchTodo, setsearchTodo] = useState([])
 
 
   return (
@@ -249,10 +252,12 @@ const AppProvider = ({ children }) => {
         descdueSort,
         // prioritySortTodos,
         groupByPriority,
-        // edittodo,
+        seteditTodo,
+        editTodo,
         openEditTodoModal,
         closeEditTodoModal,
-        isEditTodoModalOpen
+        isEditTodoModalOpen,
+        searchTodo, setsearchTodo
       }}
     >
       {children}

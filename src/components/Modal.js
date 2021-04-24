@@ -10,7 +10,6 @@ import React, { useState } from "react";
 import { useGlobalContext } from "./context";
 import "../style/modal.css";
 
-
 const useStyles = makeStyles((theme) => ({
   container: {
     display: "flex",
@@ -22,28 +21,26 @@ const useStyles = makeStyles((theme) => ({
     width: 200,
   },
 }));
-function Modal({id}) {
-  // const { isModalOpen, closeModal } = useGlobalContext();
+function Modal({ id }) {
   const classes = useStyles();
-  const { isModalOpen, closeModal, inputText,todos,setInputText,setTodos,error } = useGlobalContext();
+  const {
+    isModalOpen,
+    closeModal,
+    inputText,
+    todos,
+    setInputText,
+    setTodos,
+    error,
+  } = useGlobalContext();
 
-  // if(id){
-  //   todos.map((todo)=>{
-  //     if(todo.id === id){
-  //       console.log("found you!")
-  //     }
-  //   })
-  // }
   const inputTextHandler = (e) => {
     const name = e.target.name;
     const value = e.target.value;
-    // inputText.
     setInputText({ ...inputText, [name]: value });
-  //   console.log(inputText);
   };
   const handleSubmit = (e) => {
     e.preventDefault();
-    let id = new Date().toString().replaceAll(" ", "")
+    let id = new Date().toString().replaceAll(" ", "");
     const newRecord = {
       ...inputText,
       id,
@@ -52,15 +49,14 @@ function Modal({id}) {
     setTodos([...todos, newRecord]);
     setInputText({
       summary: "",
-    description: "",
-    dueDate: "",
-    priority: Number,
-    completed: false,
-    })
-    closeModal()
-
+      description: "",
+      dueDate: "",
+      priority: Number,
+      completed: false,
+    });
+    closeModal();
   };
-  console.log(todos)
+  console.log(todos);
   return (
     <div
       className={`${
@@ -68,93 +64,102 @@ function Modal({id}) {
       }`}
     >
       <div className="modal-container">
-        <h3 className={"heading"}>Add Task</h3>
-
         <form>
+          <h3 className={"heading"}>Add Task</h3>
+
           <div className={"taskForm"}>
-  
-        <div>
-          <label>Summary</label>
-          <br />
-          <TextField
-           variant="outlined"
-           autoComplete="off"
-           name="summary"
-           placeholder="Summary"
-           value={inputText.summary}
-           onChange={inputTextHandler}
-          />
-        </div>
-        {inputText.summary.length <= 10 ? (
-          <div>{error.summaryError10}</div>
-        ) : (
-          <div>{null}</div>
-        )}
-        {inputText.summary.length >= 140 ? (
-          <div>{error.summaryError140}</div>
-        ) : (
-          <div>{null}</div>
-        )}
-        <br />
-        <div>
-          <label>Description</label>
-          <br />
-          <TextField
-            variant="outlined"
-            autoComplete="off"
-            name="description"
-            placeholder="Description"
-            value={inputText.description}
-            onChange={inputTextHandler}
-          />
-        </div>
-        {inputText.description.length <= 10 ? (
-          <div>{error.descriptionError10}</div>
-        ) : (
-          <div>{null}</div>
-        )}
-        <br />
-        {inputText.description.length >= 500 ? (
-          <div>{error.descriptionError500}</div>
-        ) : (
-          <div>{null}</div>
-        )}
-        <br />
-        <TextField
-          id="date"
-          type="date"
-          // defaultValue="2017-05-24"
-          className={classes.textField}
-          name="dueDate"
-          value={inputText.dueDate}
-          onChange={inputTextHandler}
-        />
+            <div>
+              <label>Summary</label>
 
-        <FormControl variant="outlined" className={classes.formControl}>
-          <Select
-            native
-            name="priority"
-            value={inputText.priority}
-            onChange={inputTextHandler}
-          >
-            <option value={"None"}>None</option>
-            <option value={"Low"}>Low</option>
-            <option value={"Medium"}>Medium</option>
-            <option value={"High"}>High</option>
-          </Select>
-        </FormControl>
-        </div>
+              <TextField
+                variant="outlined"
+                autoComplete="off"
+                name="summary"
+                placeholder="Summary"
+                value={inputText.summary}
+                onChange={inputTextHandler}
+              />
+            </div>
+            {inputText.summary.length <= 10 ? (
+              <div className={"warning"}>{error.summaryError10}</div>
+            ) : (
+              <div className={"warning"}>{null}</div>
+            )}
+            {inputText.summary.length >= 140 ? (
+              <div className={"warning"}>{error.summaryError140}</div>
+            ) : (
+              <div className={"warning"}>{null}</div>
+            )}
+            <br />
+            <div>
+              <label>Description</label>
 
-        <Button className="close-modal-btn" onClick={closeModal}>
-            Cancel
-          </Button>
-          <Button
-            className="close-modal-btn"
-            type="submit"
-            onClick={handleSubmit}
-          >
-            Save
-          </Button> 
+              <TextField
+                // multiline={true}
+                // rows={4}
+                variant="outlined"
+                autoComplete="off"
+                name="description"
+                placeholder="Description"
+                value={inputText.description}
+                onChange={inputTextHandler}
+              />
+            </div>
+            {inputText.description.length <= 10 ? (
+              <div className={"warning"}>{error.descriptionError10}</div>
+            ) : (
+              <div className={"warning"}>{null}</div>
+            )}
+            <br />
+            {inputText.description.length >= 500 ? (
+              <div className={"warning"}>{error.descriptionError500}</div>
+            ) : (
+              <div className={"warning"}>{null}</div>
+            )}
+            <label>Due date</label>
+
+            <TextField
+              id="date"
+              type="date"
+              // defaultValue="2017-05-24"
+              className={classes.textField}
+              name="dueDate"
+              value={inputText.dueDate}
+              onChange={inputTextHandler}
+            />
+            <br />
+            <br />
+
+            <label>Priority</label>
+
+            <FormControl variant="outlined" className={classes.formControl}>
+              <Select
+                native
+                name="priority"
+                value={inputText.priority}
+                onChange={inputTextHandler}
+              >
+                <option value={"None"}>None</option>
+                <option value={"Low"}>Low</option>
+                <option value={"Medium"}>Medium</option>
+                <option value={"High"}>High</option>
+              </Select>
+            </FormControl>
+          </div>
+          {/* <br /> */}
+
+          <div className={"buttonContainer"}>
+            <Button className="close-modal-btn" onClick={closeModal}>
+              Cancel
+            </Button>
+            <Button
+              className="close-modal-btn"
+              type="submit"
+              onClick={handleSubmit}
+            >
+              Save
+            </Button>
+          </div>
         </form>
       </div>
     </div>

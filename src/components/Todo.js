@@ -3,23 +3,12 @@ import React from "react";
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
 import { useGlobalContext } from "./context";
-import EditTodoForm from "./EditTodoForm";
-
-function Todo({ todo,editNow }) {
-  const { todos, setTodos, openEditTodoModal } = useGlobalContext();
+import '../style/todotable.css'
+function Todo({ todo }) {
+  const { todos, setTodos, openEditTodoModal, seteditTodo } = useGlobalContext();
 
   let id;
-  console.log(id);
-
-  // let editNow = (todo) => {
-  //   // edittodo= todo
-  //   // return (
-  //   //   <>
-  //   //     <EditTodoForm todo={todo} />;
-  //   //   </>
-  //   // );
-  // };
-
+ 
   return (
     <>
       <td className={`${todo.completed ? "completedText" : ""}`}>
@@ -42,9 +31,9 @@ function Todo({ todo,editNow }) {
               
               (e) => {
                 todos.filter((el) => (id = todo.id));
-                console.log(todo);
+                // console.log(todo, "filtered");
                 openEditTodoModal()
-                editNow(todo)
+                seteditTodo(todo)
             }
           }
           />
@@ -53,7 +42,7 @@ function Todo({ todo,editNow }) {
           onClick={(e) => {
             setTodos(todos.filter((el) => el.id !== todo.id));
           }}
-          
+
         >
           <DeleteIcon />
         </Button>

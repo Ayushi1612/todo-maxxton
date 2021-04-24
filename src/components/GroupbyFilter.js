@@ -1,4 +1,10 @@
-import { FormControl, InputLabel, Select, TextField } from "@material-ui/core";
+import {
+  Box,
+  FormControl,
+  InputLabel,
+  Select,
+  TextField,
+} from "@material-ui/core";
 import React, { useEffect, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { useGlobalContext } from "./context";
@@ -17,13 +23,16 @@ const useStyles = makeStyles((theme) => ({
 }));
 function GroupbyFilter() {
   const classes = useStyles();
-  const { todos, setTodos, groupByPriority } = useGlobalContext();
+  const { todos, setTodos, groupByPriority, setsearchTodo, searchTodo } = useGlobalContext();
   const [groupByValue, setGroupByValue] = useState("");
 
   useEffect(() => {
-    console.log("logged")
-    setGroupByValue(tar)
-    console.log("logged", groupByValue)
+    console.log("logged");
+    setGroupByValue(tar);
+    console.log("logged", groupByValue);
+  });
+
+  useEffect(() => {
     
   });
 
@@ -32,9 +41,9 @@ function GroupbyFilter() {
   //=====================================================================================================================
 
   // let groupByValue =""
-  let tar = ""
+  let tar = "";
   const groupsortHandler = (e) => {
-    tar = e.target.value
+    tar = e.target.value;
     // setGroupByValue(e.target.value)
     console.log(groupByValue);
     if (groupByValue === "Priority") {
@@ -52,13 +61,21 @@ function GroupbyFilter() {
     }
   };
 
-  // function groupsortHandler (e){
-  //   setGroupByValue(e.target.value)
-  //   if(groupByValue === "Priority"){
-  //         groupByPriority()
-  //       }
-  //   return console.log(groupByValue)
-  // }
+  //seacrh
+  let searchTodos = [];
+  let ifPresent
+  const searchHandler = (e) => {
+    let searchText = e.target.value.toLowerCase();
+    searchTodos.push(todos.filter((el) => el.summary.includes(searchText)));
+    console.log(searchTodos, "search1");
+    setsearchTodo(searchTodos)
+    console.log(searchTodo, "search2");
+    ifPresent = true
+    searchTodos = []
+    setsearchTodo([])
+    console.log(searchTodo, "search3");
+
+  };
 
   //=====================================================================================================================
 
@@ -87,10 +104,17 @@ function GroupbyFilter() {
             </FormControl>
           </td>
           <td>
-            <TextField placeholder="Search" variant="outlined" />
+            <TextField
+              placeholder="Search"
+              variant="outlined"
+              onChange={searchHandler}
+            />
+
+            {/* tasks.filter(item => item.innerText.toLowerCase().includes(searchText)).forEach(item => item.style.display = "flex"); */}
           </td>
         </tr>
       </table>
+      {/* {ifPresent ? <h2>hi</h2> : <h2>Oops!</h2>} */}
     </div>
   );
 }

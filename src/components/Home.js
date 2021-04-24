@@ -13,19 +13,17 @@ function Home() {
 
   return (
     <div>
-      <div style={{ display: "flex", justifyContent: "space-around" }}>
+       {/*  */}
+      <div style={{ display: "flex", justifyContent: "space-between" }}>
         <h2>ToDo App</h2>
-        {/* Modal open button  */}
+        {/* Modal / todo input open button  */}
         <button onClick={openModal} className="btn">
           <AddIcon />
         </button>
-        {/* <button onClick={openEditTodoModal} className="btn">
-          <AddIcon />
-        </button> */}
       </div>
-    {/* <Modal/> */}
-
+      <br/>
       <GroupbyFilter />
+      <br/>
       <AllTodoComp />
     </div>
   );
